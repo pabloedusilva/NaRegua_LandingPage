@@ -239,7 +239,9 @@ a { color: var(--text); text-decoration: none; }
 @media (min-width: 800px) {
   .cta .contact-form { grid-template-columns: 1fr 1fr; }
   .cta .contact-form .full { grid-column: 1 / -1; }
+  /* Center button and keep message below without resizing */
   .cta .contact-form button { grid-column: 1 / -1; justify-self: center; min-width: 280px; padding: .75rem 2rem; }
+  .cta .contact-form .form-msg { grid-column: 1 / -1; margin-top: .5rem; font-size: .85rem; visibility: hidden; text-align: center; }
 }
 
 /* Buttons */

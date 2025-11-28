@@ -92,25 +92,34 @@
   // Contact form validation
   const form = document.querySelector('.contact-form');
   if (form) {
+    let hideTimer = null;
+    function showMessage(text, color){
+      const msg = form.querySelector('.form-msg');
+      if (!msg) return;
+      msg.textContent = text;
+      msg.style.color = color;
+      msg.style.visibility = 'visible';
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(() => {
+        msg.textContent = '';
+        msg.style.visibility = 'hidden';
+      }, 5000);
+    }
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const msg = form.querySelector('.form-msg');
       const nome = form.nome?.value?.trim();
       const email = form.email?.value?.trim();
       const texto = form.mensagem?.value?.trim();
       if (!nome || !email || !texto) {
-        msg.textContent = 'Preencha todos os campos.';
-        msg.style.color = '#ffb74d';
+        showMessage('Preencha todos os campos.', '#ffb74d');
         return;
       }
       const okEmail = /.+@.+\..+/.test(email);
       if (!okEmail) {
-        msg.textContent = 'Informe um e-mail válido.';
-        msg.style.color = '#ffb74d';
+        showMessage('Informe um e-mail válido.', '#ffb74d');
         return;
       }
-      msg.textContent = 'Mensagem enviada! Entraremos em contato em breve.';
-      msg.style.color = 'var(--gold)';
+      showMessage('Mensagem enviada! Entraremos em contato em breve.', 'var(--gold)');
       form.reset();
     });
   }
