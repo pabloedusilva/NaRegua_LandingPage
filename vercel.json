@@ -5,9 +5,9 @@
       "runtime": "nodejs20.x"
     }
   },
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "src": "/health", "dest": "/api/index.js" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
+    { "source": "/health", "destination": "/api/index.js" }
   ],
   "cleanUrls": true,
   "trailingSlash": false
