@@ -235,7 +235,19 @@ a { color: var(--text); text-decoration: none; }
   background: #131313; border: 1px solid var(--border); color: var(--text);
   padding: .65rem .75rem; border-radius: 12px; font: inherit;
 }
+.contact-form .req { color: var(--gold); font-style: normal; font-size: .85em; }
+.contact-form .optional { color: var(--muted); font-size: .65rem; font-weight: 500; letter-spacing: .02em; }
+.contact-form .field-error { border-color: #d84e4e !important; box-shadow: 0 0 0 1px rgba(216,78,78,.35); }
+.contact-form .field-error:focus { outline: 2px solid #d84e4e; }
 .contact-form .form-msg { margin-top: .5rem; min-height: 1.2rem; color: var(--gold); font-weight: 600; }
+/* Estado desabilitado do botão WhatsApp */
+.contact-form .btn-wa-send { width: 100%; margin-top: .4rem; font-size: .92rem; letter-spacing: .02em; background: #131f18; border-color: color-mix(in oklab, var(--wa) 35%, var(--border)); color: var(--wa); box-shadow: 0 4px 16px rgba(0,0,0,.4); }
+.contact-form .btn-wa-send:hover { background: var(--wa); color: #0f0f10; }
+.contact-form .btn-wa-send.disabled { filter: grayscale(.4) brightness(.7); opacity: .55; cursor: not-allowed; transform: none; }
+.contact-form .btn-wa-send.disabled:hover { background: #131f18; color: var(--wa); }
+@media (min-width: 800px) {
+  .contact-form .btn-wa-send { grid-column: 1 / -1; max-width: 340px; justify-self: center; }
+}
 @media (min-width: 800px) {
   .cta .contact-form { grid-template-columns: 1fr 1fr; }
   .cta .contact-form .full { grid-column: 1 / -1; }

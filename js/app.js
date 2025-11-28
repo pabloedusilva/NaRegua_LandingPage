@@ -89,20 +89,7 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-  // Contact form agora redireciona para WhatsApp (sem backend)
-  const form = document.querySelector('.contact-form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const nome = form.nome?.value?.trim() || '';
-      const email = form.email?.value?.trim() || '';
-      const texto = form.mensagem?.value?.trim() || '';
-      const base = 'https://wa.me/5531985079718';
-      const msg = `Olá, sou ${nome} (${email}). ${texto}`.trim();
-      const url = `${base}?text=${encodeURIComponent(msg)}`;
-      window.open(url, '_blank', 'noopener');
-    });
-  }
+  // Botão dedicado para enviar pelo WhatsApp com template organizado
   // Scroll reveal
   const revealSelector = [
     'section.section',
