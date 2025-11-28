@@ -1,2 +1,1 @@
-# NaRegua_LandingPage
-A landing page do Na-Régua Agendamentos foi criada para apresentar de forma moderna, rápida e objetiva o aplicativo pensado especialmente para barbeiros e profissionais da beleza que desejam organizar sua rotina de forma simples e eficiente.
+<img width="3240" height="4998" alt="background" src="https://github.com/user-attachments/assets/8e37391a-8a9d-4e5c-ad9d-a79ff8e0c90f" />
