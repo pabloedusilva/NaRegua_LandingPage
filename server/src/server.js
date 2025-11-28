@@ -50,11 +50,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erro interno do servidor' });
 });
 
-// Inicia o servidor apenas se não estiver no Vercel
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(env.PORT, () => {
-    console.log('Servidor rodando.');
-  });
-}
+// Inicia sempre (fora de ambiente serverless). Usa porta fornecida pelo provedor (Render define PORT) ou fallback.
+const port = env.PORT || process.env.PORT || 4000;
+app.listen(port, () => {
+  console.log('Servidor rodando.');
+});
 
 export default app;
