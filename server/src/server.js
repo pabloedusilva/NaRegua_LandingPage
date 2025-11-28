@@ -7,7 +7,8 @@ import contactRouter from './routes/contact.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '../../');
+// Em ambiente serverless o diretório de trabalho já é a raiz do projeto
+const rootDir = process.cwd();
 
 const app = express();
 
