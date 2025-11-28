@@ -1,0 +1,162 @@
+// NA·RÉGUA Landing interactions
+(function(){
+  const navToggle = document.querySelector('.nav-toggle');
+  const siteNav = document.querySelector('.site-nav');
+
+  // Mobile menu (centered overlay with links only)
+  let mobileMenu = null;
+  function ensureMobileMenu(){
+    if (mobileMenu) return mobileMenu;
+    mobileMenu = document.createElement('div');
+    mobileMenu.className = 'mobile-menu';
+    mobileMenu.innerHTML = `
+      <nav role="dialog" aria-modal="true" aria-label="Menu">
+        <a href="#home" class="menu-link">Início</a>
+        <a href="#features" class="menu-link">Recursos</a>
+        <button type="button" class="menu-link menu-item" data-submenu="cliente">
+          <span>Cliente</span>
+          <span class="arrow" aria-hidden="true"></span>
+        </button>
+        <div class="submenu" data-submenu-content="cliente" hidden>
+          <a href="#cliente">Experiência do Cliente</a>
+          <a href="#screens">Review de Telas - Cliente</a>
+        </div>
+        <button type="button" class="menu-link menu-item" data-submenu="barber">
+          <span>Barbeiro</span>
+          <span class="arrow" aria-hidden="true"></span>
+        </button>
+        <div class="submenu" data-submenu-content="barber" hidden>
+          <a href="#barber">Experiência do Barbeiro</a>
+          <a href="#screens-barber">Review de Telas - Barbeiro</a>
+        </div>
+        <a href="#planos" class="menu-link">Planos</a>
+        <a href="#contato" class="menu-link">Contato</a>
+      </nav>
+    `;
+    document.body.appendChild(mobileMenu);
+    
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+    }));
+      // Submenu toggle logic
+      mobileMenu.querySelectorAll('button.menu-item').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.getAttribute('data-submenu');
+          const content = mobileMenu.querySelector(`[data-submenu-content="${key}"]`);
+          const expanded = btn.classList.toggle('expanded');
+          if (content) {
+            content.hidden = !expanded;
+            // close other submenus
+            mobileMenu.querySelectorAll('button.menu-item').forEach(other => {
+              if (other !== btn) {
+                other.classList.remove('expanded');
+                const k = other.getAttribute('data-submenu');
+                const c = mobileMenu.querySelector(`[data-submenu-content="${k}"]`);
+                if (c) c.hidden = true;
+              }
+            });
+          }
+        });
+      });
+    return mobileMenu;
+  }
+
+  if (navToggle) {
+    navToggle.addEventListener('click', () => {
+      const menu = ensureMobileMenu();
+      const open = !menu.classList.contains('open');
+      menu.classList.toggle('open', open);
+      navToggle.setAttribute('aria-expanded', String(open));
+      // Prevent body scroll when menu is open
+      document.body.style.overflow = open ? 'hidden' : '';
+      // Reset all submenus to closed state when opening menu
+      if (open) {
+        menu.querySelectorAll('button.menu-item').forEach(btn => {
+          btn.classList.remove('expanded');
+          const key = btn.getAttribute('data-submenu');
+          const content = menu.querySelector(`[data-submenu-content="${key}"]`);
+          if (content) content.hidden = true;
+        });
+      }
+    });
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+      e.preventDefault();
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Simple contact form validation + feedback
+  const form = document.querySelector('.contact-form');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = form.querySelector('.form-msg');
+      const nome = form.nome?.value?.trim();
+      const email = form.email?.value?.trim();
+      const texto = form.mensagem?.value?.trim();
+
+      if (!nome || !email || !texto) {
+        msg.textContent = 'Preencha todos os campos.';
+        msg.style.color = '#ffb74d';
+        return;
+      }
+      const okEmail = /.+@.+\..+/.test(email);
+      if (!okEmail) {
+        msg.textContent = 'Informe um e-mail válido.';
+        msg.style.color = '#ffb74d';
+        return;
+      }
+      msg.textContent = 'Mensagem enviada! Entraremos em contato em breve.';
+      msg.style.color = 'var(--gold)';
+      form.reset();
+    });
+  }
+
+  // Scroll reveal animations (IntersectionObserver)
+  const revealSelector = [
+    'section.section',
+    '.features .feature-grid',
+    '.feature',
+    '.barber .panel',
+    '.pricing-card',
+    '.screen-card',
+    '.cta .contact-form'
+  ];
+  const allReveal = document.querySelectorAll(revealSelector.join(','));
+  allReveal.forEach(el => {
+    // containers get stagger behavior, cards get individual reveal
+    if (el.classList.contains('feature-grid') || el.classList.contains('contact-form')) {
+      el.classList.add('reveal', 'reveal-stagger');
+    } else {
+      el.classList.add('reveal');
+    }
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal-visible');
+        // once revealed, unobserve for performance
+        io.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+
+  allReveal.forEach(el => io.observe(el));
+})();
