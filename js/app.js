@@ -1,9 +1,6 @@
-// NA·RÉGUA Landing interactions
+// Migrated from original script.js (navigation, smooth scroll, form, reveal)
 (function(){
   const navToggle = document.querySelector('.nav-toggle');
-  const siteNav = document.querySelector('.site-nav');
-
-  // Mobile menu (centered overlay with links only)
   let mobileMenu = null;
   function ensureMobileMenu(){
     if (mobileMenu) return mobileMenu;
@@ -34,51 +31,43 @@
       </nav>
     `;
     document.body.appendChild(mobileMenu);
-    
     mobileMenu.addEventListener('click', (e) => {
-      if (e.target === mobileMenu) {
-        mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-        if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-      }
+      if (e.target === mobileMenu) closeMenu();
     });
-      mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      document.body.style.overflow = '';
-      if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-    }));
-      // Submenu toggle logic
-      mobileMenu.querySelectorAll('button.menu-item').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const key = btn.getAttribute('data-submenu');
-          const content = mobileMenu.querySelector(`[data-submenu-content="${key}"]`);
-          const expanded = btn.classList.toggle('expanded');
-          if (content) {
-            content.hidden = !expanded;
-            // close other submenus
-            mobileMenu.querySelectorAll('button.menu-item').forEach(other => {
-              if (other !== btn) {
-                other.classList.remove('expanded');
-                const k = other.getAttribute('data-submenu');
-                const c = mobileMenu.querySelector(`[data-submenu-content="${k}"]`);
-                if (c) c.hidden = true;
-              }
-            });
-          }
-        });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    mobileMenu.querySelectorAll('button.menu-item').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-submenu');
+        const content = mobileMenu.querySelector(`[data-submenu-content="${key}"]`);
+        const expanded = btn.classList.toggle('expanded');
+        if (content) {
+          content.hidden = !expanded;
+          mobileMenu.querySelectorAll('button.menu-item').forEach(other => {
+            if (other !== btn) {
+              other.classList.remove('expanded');
+              const k = other.getAttribute('data-submenu');
+              const c = mobileMenu.querySelector(`[data-submenu-content="${k}"]`);
+              if (c) c.hidden = true;
+            }
+          });
+        }
       });
+    });
     return mobileMenu;
   }
-
+  function closeMenu(){
+    if (!mobileMenu) return;
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+    if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+  }
   if (navToggle) {
     navToggle.addEventListener('click', () => {
       const menu = ensureMobileMenu();
       const open = !menu.classList.contains('open');
       menu.classList.toggle('open', open);
       navToggle.setAttribute('aria-expanded', String(open));
-      // Prevent body scroll when menu is open
       document.body.style.overflow = open ? 'hidden' : '';
-      // Reset all submenus to closed state when opening menu
       if (open) {
         menu.querySelectorAll('button.menu-item').forEach(btn => {
           btn.classList.remove('expanded');
@@ -89,19 +78,18 @@
       }
     });
   }
-
   // Smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', (e) => {
       const id = a.getAttribute('href').slice(1);
+      if (!id) return;
       const el = document.getElementById(id);
       if (!el) return;
       e.preventDefault();
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-
-  // Simple contact form validation + feedback
+  // Contact form validation
   const form = document.querySelector('.contact-form');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -110,7 +98,6 @@
       const nome = form.nome?.value?.trim();
       const email = form.email?.value?.trim();
       const texto = form.mensagem?.value?.trim();
-
       if (!nome || !email || !texto) {
         msg.textContent = 'Preencha todos os campos.';
         msg.style.color = '#ffb74d';
@@ -127,8 +114,7 @@
       form.reset();
     });
   }
-
-  // Scroll reveal animations (IntersectionObserver)
+  // Scroll reveal
   const revealSelector = [
     'section.section',
     '.features .feature-grid',
@@ -140,23 +126,19 @@
   ];
   const allReveal = document.querySelectorAll(revealSelector.join(','));
   allReveal.forEach(el => {
-    // containers get stagger behavior, cards get individual reveal
     if (el.classList.contains('feature-grid') || el.classList.contains('contact-form')) {
       el.classList.add('reveal', 'reveal-stagger');
     } else {
       el.classList.add('reveal');
     }
   });
-
   const io = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('reveal-visible');
-        // once revealed, unobserve for performance
         io.unobserve(entry.target);
       }
     });
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
-
   allReveal.forEach(el => io.observe(el));
 })();
