@@ -16,6 +16,9 @@ const app = express();
 app.use(helmetMiddleware);
 app.use(corsMiddleware);
 app.use(express.json());
+// Permite que Express confie nos cabeçalhos X-Forwarded-* enviados pelo proxy (Render/Nginx)
+// Necessário para express-rate-limit identificar corretamente o IP do cliente
+app.set('trust proxy', true);
 
 // Servir arquivos estáticos (CSS, JS, imagens, etc.)
 app.use('/css', express.static(path.join(rootDir, 'css')));
