@@ -24,24 +24,30 @@ const allowedOrigins = [
   'http://127.0.0.1:4000',
   'http://localhost:5500',
   'http://127.0.0.1:5500'
-];
+].filter(Boolean);
 
 // Configuração de CORS
 export const corsMiddleware = cors({ 
   origin: (origin, callback) => {
-    // Permite requisições sem origem (ex: Postman, mesmo servidor, Vercel serverless)
+    // Permite requisições sem origem (ex: Postman, mesmo servidor)
     if (!origin) return callback(null, true);
-    
-    // Permite origens da lista de permitidas
+
+    // Se for a mesma origem do deploy (Render), permitir automaticamente
+    // Render domain exemplo: https://<appname>.onrender.com
+    if (origin.endsWith('.onrender.com')) {
+      return callback(null, true);
+    }
+
+    // Permite qualquer subdomínio antigo do Vercel (legado)
+    if (origin.includes('.vercel.app')) {
+      return callback(null, true);
+    }
+
+    // Origem configurada explicitamente ou lista de dev
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    
-    // Permite qualquer subdomínio do Vercel em desenvolvimento
-    if (origin && origin.includes('.vercel.app')) {
-      return callback(null, true);
-    }
-    
+
     callback(new Error('Not allowed by CORS'));
   },
   credentials: false 
