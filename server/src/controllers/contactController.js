@@ -34,9 +34,13 @@ export async function postContact(req, res) {
 
     const { nome, email, mensagem } = parse.data;
     
-    // Enviar e-mails
+    // Enviar e-mails com timeout de segurança para não travar a resposta
     const logoUrl = `${process.env.CORS_ORIGIN || 'http://localhost:4000'}/imagens/logo.png`;
-    await sendContactEmails({ nome, email, mensagem, logoUrl });
+    const TIMEOUT_MS = 12000;
+    const result = await Promise.race([
+      sendContactEmails({ nome, email, mensagem, logoUrl }),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), TIMEOUT_MS))
+    ]);
     
     return res.json({ 
       ok: true, 
@@ -44,11 +48,12 @@ export async function postContact(req, res) {
     });
     
   } catch (err) {
-    
-    // Não expor detalhes internos do erro
+    const isTimeout = err && err.message === 'timeout';
     return res.status(500).json({ 
       ok: false, 
-      error: 'Falha ao enviar mensagem. Tente novamente mais tarde.' 
+      error: isTimeout
+        ? 'Serviço de e-mail demorou a responder. Tente novamente.'
+        : 'Falha ao enviar mensagem. Tente novamente mais tarde.'
     });
   }
 }

@@ -2,15 +2,21 @@ import nodemailer from 'nodemailer';
 
 export function createTransport({ host, port, secure, user, pass }) {
   // Timeouts para evitar requests penduradas em ambiente de produção
+  // port 587 com secure=false ativa STARTTLS (mais confiável em hosts cloud)
   return nodemailer.createTransport({
     host,
-    port,
+    port: Number(port),
     secure: secure === 'true' || secure === true,
-    auth: { user, pass },
-    connectionTimeout: 8000,
-    greetingTimeout: 6000,
-    socketTimeout: 10000,
+    auth: { 
+      user: user.trim(), 
+      pass: pass.trim() 
+    },
+    connectionTimeout: 10000,
+    greetingTimeout: 8000,
+    socketTimeout: 12000,
     pool: false,
+    debug: false,
+    logger: false,
   });
 }
 

@@ -30,6 +30,7 @@ const escapeHtml = (str) => String(str || '')
  */
 export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
   try {
+    console.log('[Email] Iniciando envio...');
     // E-mail para o administrador
     const adminHtml = renderEmailTemplate({
       logoUrl,
@@ -72,10 +73,17 @@ export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
       subject: `Olá ${nome}, obrigado pelo seu contato com Na-Régua`,
       html: userHtml,
     });
-    await Promise.allSettled([sendAdmin, sendUser]);
+    const results = await Promise.allSettled([sendAdmin, sendUser]);
+    const failures = results.filter(r => r.status === 'rejected');
+    if (failures.length > 0) {
+      console.error('[Email] Falha:', failures[0].reason?.code || failures[0].reason?.message || 'unknown');
+      throw new Error('SMTP error');
+    }
+    console.log('[Email] Enviado com sucesso');
     return { success: true };
     
   } catch (error) {
+    console.error('[Email] Erro geral:', error.message);
     throw new Error('Falha ao enviar e-mails');
   }
 }
