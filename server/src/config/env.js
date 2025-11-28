@@ -11,5 +11,6 @@ export const env = {
   FROM_NAME: process.env.FROM_NAME || 'Na-Régua',
   FROM_EMAIL: process.env.FROM_EMAIL || process.env.SMTP_USER,
   CORS_ORIGIN: process.env.CORS_ORIGIN || '*',
+  EMAIL_TIMEOUT_MS: Number(process.env.EMAIL_TIMEOUT_MS) || 30000,
   PORT: Number(process.env.PORT) || 4000,
 };

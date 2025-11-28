@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { sendContactEmails } from '../services/emailService.js';
+import { env } from '../config/env.js';
 
 // Schema de validação com mensagens em português
 const ContactSchema = z.object({
@@ -36,7 +37,7 @@ export async function postContact(req, res) {
     
     // Enviar e-mails com timeout de segurança para não travar a resposta
     const logoUrl = `${process.env.CORS_ORIGIN || 'http://localhost:4000'}/imagens/logo.png`;
-    const TIMEOUT_MS = 12000;
+    const TIMEOUT_MS = env.EMAIL_TIMEOUT_MS;
     const result = await Promise.race([
       sendContactEmails({ nome, email, mensagem, logoUrl }),
       new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), TIMEOUT_MS))
