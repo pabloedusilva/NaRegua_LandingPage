@@ -48,12 +48,33 @@ export async function postContact(req, res) {
     });
     
   } catch (err) {
-    const isTimeout = err && err.message === 'timeout';
-    return res.status(500).json({ 
+    const type = err.emailErrorType || (err && err.message === 'timeout' ? 'timeout' : 'general');
+    let status = 500;
+    let msg;
+    switch (type) {
+      case 'timeout':
+        status = 504;
+        msg = 'Serviço de e-mail demorou a responder. Tente novamente.';
+        break;
+      case 'auth':
+        msg = 'Falha de autenticação SMTP. Verifique usuário/app password.';
+        break;
+      case 'dns':
+        msg = 'Problema DNS ao resolver servidor SMTP.';
+        break;
+      case 'tls':
+        msg = 'Erro de handshake TLS com servidor SMTP.';
+        break;
+      case 'smtp_unavailable':
+        msg = 'Servidor SMTP indisponível no momento.';
+        break;
+      default:
+        msg = 'Falha ao enviar mensagem. Tente novamente mais tarde.';
+    }
+    return res.status(status).json({ 
       ok: false, 
-      error: isTimeout
-        ? 'Serviço de e-mail demorou a responder. Tente novamente.'
-        : 'Falha ao enviar mensagem. Tente novamente mais tarde.'
+      error: msg,
+      type
     });
   }
 }

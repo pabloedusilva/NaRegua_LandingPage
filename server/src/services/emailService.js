@@ -1,14 +1,42 @@
 import { createTransport, renderEmailTemplate } from '../mailer.js';
 import { env } from '../config/env.js';
 
+// Log seguro da configuração (sem senha)
+console.log('[Email] Config SMTP:', {
+  host: env.SMTP_HOST,
+  port: env.SMTP_PORT,
+  secure: env.SMTP_SECURE,
+  user: env.SMTP_USER ? env.SMTP_USER.substring(0, 3) + '***' : undefined,
+  from: env.FROM_EMAIL,
+});
+
+// Validação mínima de variáveis obrigatórias
+const missing = ['SMTP_HOST','SMTP_PORT','SMTP_USER','SMTP_PASS','ADMIN_EMAIL'].filter(k => !env[k]);
+if (missing.length) {
+  console.error('[Email] Variáveis de ambiente ausentes:', missing.join(', '));
+}
+
 // Criar transporte SMTP
 const transport = createTransport({
   host: env.SMTP_HOST,
   port: env.SMTP_PORT,
-  secure: env.SMTP_SECURE,
+  secure: env.SMTP_SECURE, // porta 587 + secure=false => STARTTLS
   user: env.SMTP_USER,
   pass: env.SMTP_PASS,
 });
+
+// Verificação inicial do servidor SMTP
+let smtpReady = false;
+const transportVerifyPromise = transport.verify()
+  .then(() => {
+    smtpReady = true;
+    console.log('[Email] SMTP verificado e pronto.');
+    return true;
+  })
+  .catch(err => {
+    console.error('[Email] Verificação SMTP falhou:', err.code || err.message);
+    return false;
+  });
 
 // Função para escapar HTML e prevenir XSS
 const escapeHtml = (str) => String(str || '')
@@ -31,6 +59,12 @@ const escapeHtml = (str) => String(str || '')
 export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
   try {
     console.log('[Email] Iniciando envio...');
+    const verified = await transportVerifyPromise;
+    if (!verified) {
+      const err = new Error('Servidor SMTP indisponível');
+      err.emailErrorType = 'smtp_unavailable';
+      throw err;
+    }
     // E-mail para o administrador
     const adminHtml = renderEmailTemplate({
       logoUrl,
@@ -76,14 +110,31 @@ export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
     const results = await Promise.allSettled([sendAdmin, sendUser]);
     const failures = results.filter(r => r.status === 'rejected');
     if (failures.length > 0) {
-      console.error('[Email] Falha:', failures[0].reason?.code || failures[0].reason?.message || 'unknown');
-      throw new Error('SMTP error');
+      const reason = failures[0].reason || {};
+      const code = reason.code || reason.responseCode || reason.message || 'unknown';
+      console.error('[Email] Falha envio:', code);
+      const error = new Error(code);
+      error.emailErrorType = classifySmtpError(code);
+      throw error;
     }
     console.log('[Email] Enviado com sucesso');
     return { success: true };
     
   } catch (error) {
-    console.error('[Email] Erro geral:', error.message);
-    throw new Error('Falha ao enviar e-mails');
+    if (!error.emailErrorType) {
+      error.emailErrorType = classifySmtpError(error.message);
+    }
+    console.error('[Email] Erro geral:', error.emailErrorType, error.message);
+    throw error;
   }
+}
+
+function classifySmtpError(code) {
+  const c = String(code || '').toUpperCase();
+  if (c.includes('ETIMEDOUT') || c.includes('ECONNECTION') || c.includes('ESOCKET')) return 'timeout';
+  if (c.includes('EAUTH') || c.includes('INVALID LOGIN') || c.includes('AUTH')) return 'auth';
+  if (c.includes('ENOTFOUND') || c.includes('DNS')) return 'dns';
+  if (c.includes('CERT') || c.includes('TLS')) return 'tls';
+  if (c === 'UNKNOWN') return 'unknown';
+  return 'general';
 }
