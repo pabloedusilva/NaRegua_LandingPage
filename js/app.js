@@ -105,11 +105,13 @@
         msg.style.visibility = 'hidden';
       }, 5000);
     }
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const nome = form.nome?.value?.trim();
       const email = form.email?.value?.trim();
       const texto = form.mensagem?.value?.trim();
+      const submitBtn = form.querySelector('button[type="submit"]');
+      
       if (!nome || !email || !texto) {
         showMessage('Preencha todos os campos.', '#ffb74d');
         return;
@@ -119,8 +121,31 @@
         showMessage('Informe um e-mail válido.', '#ffb74d');
         return;
       }
-      showMessage('Mensagem enviada! Entraremos em contato em breve.', 'var(--gold)');
-      form.reset();
+      
+      // Ativar loading
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      
+      try {
+        const resp = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, email, mensagem: texto })
+        });
+        const data = await resp.json();
+        if (resp.ok && data.ok) {
+          showMessage('Mensagem enviada! Entraremos em contato em breve.', 'var(--gold)');
+          form.reset();
+        } else {
+          showMessage('Falha ao enviar, tente novamente.', '#ffb74d');
+        }
+      } catch {
+        showMessage('Erro de conexão. Tente novamente.', '#ffb74d');
+      } finally {
+        // Desativar loading
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
     });
   }
   // Scroll reveal

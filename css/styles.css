@@ -245,7 +245,11 @@ a { color: var(--text); text-decoration: none; }
 }
 
 /* Buttons */
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem .95rem; border-radius: 999px; font-weight: 600; border: 1px solid var(--border); transition: transform .15s ease, filter .15s ease, background .2s ease, color .2s ease; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .7rem .95rem; border-radius: 999px; font-weight: 600; border: 1px solid var(--border); transition: transform .15s ease, filter .15s ease, background .2s ease, color .2s ease; position: relative; }
+.btn-spinner { display: none; }
+.btn.loading { pointer-events: none; opacity: 0.7; }
+.btn.loading .btn-text { opacity: 0; }
+.btn.loading .btn-spinner { display: block; position: absolute; }
 .site-header .btn-sm { padding: .5rem .78rem; }
 .site-header .btn-whatsapp { background: transparent; color: var(--wa); border-color: color-mix(in oklab, var(--wa) 45%, var(--border)); box-shadow: none; }
 .site-header .btn-whatsapp:hover { background: var(--wa); color: #0f0f10; }
