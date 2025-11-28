@@ -59,23 +59,20 @@ export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
       footer: 'Se você não reconhece este contato, ignore este e-mail.'
     });
 
-    // Enviar e-mail para o administrador
-    await transport.sendMail({
+    const sendAdmin = transport.sendMail({
       from: { name: env.FROM_NAME, address: env.FROM_EMAIL },
       to: env.ADMIN_EMAIL,
       replyTo: email,
       subject: `Novo contato de ${nome} — Na-Régua`,
       html: adminHtml,
     });
-
-    // Enviar e-mail de confirmação para o usuário
-    await transport.sendMail({
+    const sendUser = transport.sendMail({
       from: { name: env.FROM_NAME, address: env.FROM_EMAIL },
       to: email,
       subject: `Olá ${nome}, obrigado pelo seu contato com Na-Régua`,
       html: userHtml,
     });
-
+    await Promise.allSettled([sendAdmin, sendUser]);
     return { success: true };
     
   } catch (error) {

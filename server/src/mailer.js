@@ -1,11 +1,16 @@
 import nodemailer from 'nodemailer';
 
 export function createTransport({ host, port, secure, user, pass }) {
+  // Timeouts para evitar requests penduradas em ambiente de produção
   return nodemailer.createTransport({
     host,
     port,
     secure: secure === 'true' || secure === true,
     auth: { user, pass },
+    connectionTimeout: 8000,
+    greetingTimeout: 6000,
+    socketTimeout: 10000,
+    pool: false,
   });
 }
 
