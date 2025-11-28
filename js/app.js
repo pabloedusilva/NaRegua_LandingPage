@@ -89,63 +89,18 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
-  // Contact form validation
+  // Contact form agora redireciona para WhatsApp (sem backend)
   const form = document.querySelector('.contact-form');
   if (form) {
-    let hideTimer = null;
-    function showMessage(text, color){
-      const msg = form.querySelector('.form-msg');
-      if (!msg) return;
-      msg.textContent = text;
-      msg.style.color = color;
-      msg.style.visibility = 'visible';
-      if (hideTimer) clearTimeout(hideTimer);
-      hideTimer = setTimeout(() => {
-        msg.textContent = '';
-        msg.style.visibility = 'hidden';
-      }, 5000);
-    }
-    form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const nome = form.nome?.value?.trim();
-      const email = form.email?.value?.trim();
-      const texto = form.mensagem?.value?.trim();
-      const submitBtn = form.querySelector('button[type="submit"]');
-      
-      if (!nome || !email || !texto) {
-        showMessage('Preencha todos os campos.', '#ffb74d');
-        return;
-      }
-      const okEmail = /.+@.+\..+/.test(email);
-      if (!okEmail) {
-        showMessage('Informe um e-mail válido.', '#ffb74d');
-        return;
-      }
-      
-      // Ativar loading
-      submitBtn.classList.add('loading');
-      submitBtn.disabled = true;
-      
-      try {
-        const resp = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, email, mensagem: texto })
-        });
-        const data = await resp.json();
-        if (resp.ok && data.ok) {
-          showMessage('Mensagem enviada! Entraremos em contato em breve.', 'var(--gold)');
-          form.reset();
-        } else {
-          showMessage('Falha ao enviar, tente novamente.', '#ffb74d');
-        }
-      } catch {
-        showMessage('Erro de conexão. Tente novamente.', '#ffb74d');
-      } finally {
-        // Desativar loading
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-      }
+      const nome = form.nome?.value?.trim() || '';
+      const email = form.email?.value?.trim() || '';
+      const texto = form.mensagem?.value?.trim() || '';
+      const base = 'https://wa.me/5531985079718';
+      const msg = `Olá, sou ${nome} (${email}). ${texto}`.trim();
+      const url = `${base}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank', 'noopener');
     });
   }
   // Scroll reveal
