@@ -5,93 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Política de Privacidade — Na-Régua</title>
   <meta name="description" content="Política de privacidade do aplicativo Na-Régua." />
-  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
-  <link rel="shortcut icon" type="image/x-icon" href="favicon/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="../favicon/favicon.ico" />
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
   <style>
     .legal-page { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
-    .legal-header { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
-    .legal-header img { width:120px; height:auto; }
-    .legal-title { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size: clamp(2rem, 4vw, 2.6rem); margin: 0; }
+    .legal-header { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; flex-direction:column; text-align:center; }
+    .legal-header img { width:180px; height:auto; }
+    .legal-title { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size: clamp(2rem, 4vw, 2.6rem); margin: .5rem 0 0; }
     .legal-sub { color: var(--text-dim); margin: .25rem 0 1rem; }
     .legal-card { background:#141414; border:1px solid var(--border); border-radius:16px; padding:1.25rem; box-shadow: var(--shadow); }
     .legal-card h2 { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size:1.8rem; margin:.2rem 0 1rem; }
-    .legal-card h3 { margin:1rem 0 .5rem; }
     .legal-card p, .legal-card li { color: var(--text-dim); line-height:1.7; }
     .legal-list { padding-left: 1.1rem; }
     .legal-footer { margin-top:1.2rem; font-size:.9rem; color: var(--muted); }
-    .back { display:inline-flex; align-items:center; gap:.4rem; color: var(--text-dim); }
-    .back:hover { color: var(--text); }
+    .back-arrow { position:absolute; left:16px; top:16px; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:#141414; border:1px solid var(--border); color:var(--text-dim); }
   </style>
 </head>
 <body>
   <header class="site-header" style="border-bottom: 1px solid var(--border);">
-    <a href="index.html" class="back-arrow" aria-label="Voltar ao início" style="position:absolute; left:16px; top:16px; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:#141414; border:1px solid var(--border); color:var(--text-dim);">
+    <a href="../index.html" class="back-arrow" aria-label="Voltar ao início">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <div style="height:56px"></div>
   </header>
 
   <main class="legal-page">
-    <div class="legal-header" style="flex-direction:column; align-items:center; text-align:center;">
-      <img src="imagens/logo.png" alt="NA·RÉGUA" style="width:180px;" />
-      <h1 class="legal-title" style="margin-top:.5rem;">Política de Privacidade</h1>
-      <p class="legal-sub">Aplicativo Na-Régua — proteção e transparência de dados</p>
+    <div class="legal-header">
+      <img src="../imagens/logo.png" alt="NA·RÉGUA" />
+      <h1 class="legal-title">Política de Privacidade</h1>
+      <p class="legal-sub">Aplicativo Na-Régua — proteção e transparência</p>
     </div>
 
     <article class="legal-card">
-      <h2>1. Introdução</h2>
-      <p>Esta Política de Privacidade descreve como coletamos, utilizamos, armazenamos e protegemos seus dados pessoais ao usar o Na-Régua.</p>
-
-      <h2>2. Dados Coletados</h2>
+      <h2>1. Dados que Coletamos</h2>
       <ul class="legal-list">
-        <li>Dados de identificação: nome, e-mail, telefone.</li>
-        <li>Dados de uso: agendamentos, preferências, interações no app.</li>
-        <li>Dados técnicos: dispositivo, navegador, endereço IP e logs de acesso.</li>
+        <li>Informações de cadastro: nome, telefone, e-mail (opcional).</li>
+        <li>Dados de agendamentos: serviços, horários e preferências.</li>
+        <li>Dados técnicos: logs de acesso e métricas de uso para melhorias.</li>
       </ul>
-
-      <h2>3. Finalidade do Uso</h2>
+      <h2>2. Uso dos Dados</h2>
       <ul class="legal-list">
-        <li>Operar e melhorar o serviço de agendamentos.</li>
-        <li>Facilitar comunicação entre clientes e barbearias.</li>
-        <li>Enviar lembretes e notificações relacionados aos seus agendamentos.</li>
-        <li>Garantir segurança, prevenir fraudes e cumprir obrigações legais.</li>
+        <li>Viabilizar agendamentos e comunicações com barbearias.</li>
+        <li>Personalizar a experiência e melhorar funcionalidades.</li>
+        <li>Garantir segurança, detectar abusos e cumprir obrigações legais.</li>
       </ul>
-
-      <h2>4. Base Legal</h2>
-      <p>Tratamos dados com base no seu consentimento, execução de contrato (prestação de serviço), cumprimento de obrigação legal e legítimo interesse, conforme aplicável.</p>
-
-      <h2>5. Compartilhamento de Dados</h2>
-      <p>Podemos compartilhar dados com provedores estritamente necessários (infraestrutura, e-mail, analytics) para operar o serviço com segurança e qualidade, sempre sob contrato e em conformidade com a lei.</p>
-
-      <h2>6. Armazenamento e Segurança</h2>
-      <p>Adotamos medidas técnicas e organizacionais para proteger seus dados contra acesso não autorizado, alteração, divulgação ou destruição.</p>
-
-      <h2>7. Seus Direitos</h2>
+      <h2>3. Compartilhamento</h2>
+      <p>Não vendemos dados. Compartilhamos apenas quando necessário para operação do aplicativo (por exemplo, provedores de infraestrutura) ou em cumprimento de exigências legais.</p>
+      <h2>4. Segurança</h2>
+      <p>Adotamos medidas técnicas e organizacionais para proteger sua informação. Embora nos esforcemos pela máxima segurança, nenhum sistema é infalível.</p>
+      <h2>5. Seus Direitos</h2>
       <ul class="legal-list">
         <li>Acessar, corrigir ou atualizar seus dados.</li>
-        <li>Solicitar exclusão, anonimização ou portabilidade quando aplicável.</li>
-        <li>Revogar consentimento e limitar tratamento, observadas as bases legais.</li>
+        <li>Solicitar exclusão de informações conforme legislação aplicável.</li>
+        <li>Revogar consentimentos que sejam base de tratamento.</li>
       </ul>
-
-      <h2>8. Retenção</h2>
-      <p>Guardamos seus dados apenas pelo tempo necessário ao cumprimento das finalidades e obrigações legais.</p>
-
-      <h2>9. Crianças e Adolescentes</h2>
-      <p>O serviço não se destina a menores de 13 anos. Para maiores de 13 e menores de 18, recomenda-se consentimento e acompanhamento dos responsáveis.</p>
-
-      <h2>10. Transferência Internacional</h2>
-      <p>Serviços de infraestrutura podem operar em outros países, sempre sob garantias adequadas de proteção de dados.</p>
-
-      <h2>11. Atualizações desta Política</h2>
-      <p>Podemos atualizar esta Política de Privacidade para refletir melhorias ou requisitos legais. A versão vigente estará publicada neste endereço.</p>
-
-      <h2>12. Contato</h2>
-      <p>Para exercer seus direitos ou tirar dúvidas, entre em contato via WhatsApp disponível no site ou pelo e-mail de suporte.</p>
-
+      <h2>6. Retenção</h2>
+      <p>Manteremos seus dados pelo tempo necessário para cumprir as finalidades descritas e obrigações legais, podendo ser anonimizados para análises.</p>
+      <h2>7. Contato</h2>
+      <p>Em caso de dúvidas ou solicitações relacionadas à privacidade, entre em contato via WhatsApp disponível no site ou por e-mail de suporte.</p>
       <div class="legal-footer">Última atualização: 28/11/2025</div>
     </article>
   </main>
@@ -99,15 +74,15 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-top">
-        <img src="imagens/logo.png" alt="NA·RÉGUA" class="brand-logo" />
+        <img src="../imagens/logo.png" alt="NA·RÉGUA" class="brand-logo" />
       </div>
       <div class="footer-bottom">
         <div class="footer-legal">
           <span class="copyright">&copy; Ná-Régua todos os direitos reservados 2026</span>
           <nav class="footer-links" aria-label="Links legais">
-            <a href="termos.html">Termos de uso</a>
-            <a href="privacidade.html">Política de Privacidade</a>
-            <a href="index.html#sobre">Sobre</a>
+            <a href="/termos">Termos de uso</a>
+            <a href="/privacidade">Política de Privacidade</a>
+            <a href="/sobre">Sobre</a>
           </nav>
         </div>
         <div class="footer-social" aria-label="Redes e contato">
@@ -125,6 +100,6 @@
     </div>
   </footer>
 
-  <script src="js/whatsapp-messages.js"></script>
+  <script src="../js/whatsapp-messages.js"></script>
 </body>
 </html>

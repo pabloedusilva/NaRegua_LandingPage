@@ -5,85 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Termos de Uso — Na-Régua</title>
   <meta name="description" content="Termos de uso do aplicativo Na-Régua." />
-  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico" />
-  <link rel="shortcut icon" type="image/x-icon" href="favicon/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="../favicon/favicon.ico" />
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Bebas+Neue&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="../css/styles.css" />
   <style>
     .legal-page { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
-    .legal-header { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
-    .legal-header img { width:120px; height:auto; }
-    .legal-title { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size: clamp(2rem, 4vw, 2.6rem); margin: 0; }
+    .legal-header { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; flex-direction:column; text-align:center; }
+    .legal-header img { width:180px; height:auto; }
+    .legal-title { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size: clamp(2rem, 4vw, 2.6rem); margin: .5rem 0 0; }
     .legal-sub { color: var(--text-dim); margin: .25rem 0 1rem; }
     .legal-card { background:#141414; border:1px solid var(--border); border-radius:16px; padding:1.25rem; box-shadow: var(--shadow); }
     .legal-card h2 { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size:1.8rem; margin:.2rem 0 1rem; }
-    .legal-card h3 { margin:1rem 0 .5rem; }
     .legal-card p, .legal-card li { color: var(--text-dim); line-height:1.7; }
     .legal-list { padding-left: 1.1rem; }
     .legal-footer { margin-top:1.2rem; font-size:.9rem; color: var(--muted); }
-    .back { display:inline-flex; align-items:center; gap:.4rem; color: var(--text-dim); }
-    .back:hover { color: var(--text); }
+    .back-arrow { position:absolute; left:16px; top:16px; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:#141414; border:1px solid var(--border); color:var(--text-dim); }
   </style>
 </head>
 <body>
   <header class="site-header" style="border-bottom: 1px solid var(--border);">
-    <a href="index.html" class="back-arrow" aria-label="Voltar ao início" style="position:absolute; left:16px; top:16px; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:#141414; border:1px solid var(--border); color:var(--text-dim);">
+    <a href="../index.html" class="back-arrow" aria-label="Voltar ao início">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <div style="height:56px"></div>
   </header>
 
   <main class="legal-page">
-    <div class="legal-header" style="flex-direction:column; align-items:center; text-align:center;">
-      <img src="imagens/logo.png" alt="NA·RÉGUA" style="width:180px;" />
-      <h1 class="legal-title" style="margin-top:.5rem;">Termos de Uso</h1>
+    <div class="legal-header">
+      <img src="../imagens/logo.png" alt="NA·RÉGUA" />
+      <h1 class="legal-title">Termos de Uso</h1>
       <p class="legal-sub">Aplicativo Na-Régua — agendamentos para barbearias</p>
     </div>
 
     <article class="legal-card">
       <h2>1. Aceitação dos Termos</h2>
       <p>Ao acessar ou utilizar o Na-Régua, você concorda com estes Termos de Uso. Se não concordar com alguma condição, recomendamos não utilizar o serviço.</p>
-
       <h2>2. Descrição do Serviço</h2>
       <p>O Na-Régua é uma plataforma que facilita agendamentos entre clientes e barbearias, oferecendo funcionalidades de gestão, comunicação e lembretes.</p>
-
       <h2>3. Cadastro e Conta</h2>
       <ul class="legal-list">
         <li>Você é responsável pela veracidade das informações cadastradas.</li>
         <li>Não compartilhe suas credenciais; mantenha sua conta segura.</li>
         <li>Podemos suspender contas em caso de uso indevido ou violação destes termos.</li>
       </ul>
-
       <h2>4. Planos, Pagamentos e Cancelamento</h2>
       <ul class="legal-list">
         <li>Os planos são mensais ou trimestrais, conforme exposto no site.</li>
         <li>Pagamentos não são reembolsáveis após a ativação do período contratado.</li>
         <li>O cancelamento pode ser feito a qualquer momento, cessando o acesso ao término do período vigente.</li>
       </ul>
-
       <h2>5. Uso Adequado</h2>
       <ul class="legal-list">
         <li>É proibido utilizar o Na-Régua para fins ilegais, spam ou assédio.</li>
         <li>Não tente interferir na operação ou segurança do serviço.</li>
       </ul>
-
       <h2>6. Conteúdo e Propriedade</h2>
       <ul class="legal-list">
         <li>Marca, design e conteúdo do Na-Régua são protegidos por direitos autorais e propriedade intelectual.</li>
         <li>Você mantém direitos sobre seu conteúdo, mas nos concede licença para operá-lo no app conforme necessário.</li>
       </ul>
-
       <h2>7. Disponibilidade e Modificações</h2>
       <p>Podemos atualizar, modificar ou interromper funcionalidades sem aviso prévio, buscando melhorar a experiência e estabilidade.</p>
-
       <h2>8. Limitação de Responsabilidade</h2>
       <p>O Na-Régua não se responsabiliza por prejuízos indiretos, perda de dados ou falhas externas ao nosso controle (como operadoras e provedores de serviços).</p>
-
       <h2>9. Contato</h2>
       <p>Para dúvidas sobre estes termos, entre em contato via WhatsApp disponível no site ou pelo e-mail de suporte.</p>
-
       <div class="legal-footer">Última atualização: 28/11/2025</div>
     </article>
   </main>
@@ -91,15 +80,15 @@
   <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-top">
-        <img src="imagens/logo.png" alt="NA·RÉGUA" class="brand-logo" />
+        <img src="../imagens/logo.png" alt="NA·RÉGUA" class="brand-logo" />
       </div>
       <div class="footer-bottom">
         <div class="footer-legal">
           <span class="copyright">&copy; Ná-Régua todos os direitos reservados 2026</span>
           <nav class="footer-links" aria-label="Links legais">
-            <a href="termos.html">Termos de uso</a>
-            <a href="privacidade.html">Política de Privacidade</a>
-            <a href="index.html#sobre">Sobre</a>
+            <a href="/termos">Termos de uso</a>
+            <a href="/privacidade">Política de Privacidade</a>
+            <a href="/sobre">Sobre</a>
           </nav>
         </div>
         <div class="footer-social" aria-label="Redes e contato">
@@ -117,6 +106,6 @@
     </div>
   </footer>
 
-  <script src="js/whatsapp-messages.js"></script>
+  <script src="../js/whatsapp-messages.js"></script>
 </body>
 </html>
