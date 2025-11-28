@@ -16,8 +16,8 @@ if (missing.length) {
   console.error('[Email] Variáveis de ambiente ausentes:', missing.join(', '));
 }
 
-// Criar transporte SMTP
-const transport = createTransport({
+// Criar transporte SMTP (mutável para permitir fallback)
+let transport = createTransport({
   host: env.SMTP_HOST,
   port: env.SMTP_PORT,
   secure: env.SMTP_SECURE, // porta 587 + secure=false => STARTTLS
@@ -25,18 +25,47 @@ const transport = createTransport({
   pass: env.SMTP_PASS,
 });
 
-// Verificação inicial do servidor SMTP
+// Verificação inicial do servidor SMTP (com fallback para 465 se 587 falhar por timeout)
 let smtpReady = false;
-const transportVerifyPromise = transport.verify()
-  .then(() => {
-    smtpReady = true;
-    console.log('[Email] SMTP verificado e pronto.');
-    return true;
-  })
-  .catch(err => {
-    console.error('[Email] Verificação SMTP falhou:', err.code || err.message);
-    return false;
-  });
+let verifyPromise;
+async function ensureTransportReady() {
+  if (smtpReady) return true;
+  if (verifyPromise) return verifyPromise;
+  verifyPromise = (async () => {
+    try {
+      await transport.verify();
+      smtpReady = true;
+      console.log('[Email] SMTP verificado e pronto.');
+      return true;
+    } catch (err) {
+      const code = String(err.code || err.message || '').toUpperCase();
+      console.error('[Email] Verificação SMTP falhou:', code);
+      const isTimeout = code.includes('ETIMEDOUT') || code.includes('ECONNECTION') || code.includes('ESOCKET');
+      const usingGmail587 = String(env.SMTP_HOST).includes('smtp.gmail.com') && String(env.SMTP_PORT) === '587' && !env.SMTP_SECURE;
+      if (isTimeout && usingGmail587) {
+        console.log('[Email] Tentando fallback para porta 465 (SSL) ...');
+        transport = createTransport({
+          host: env.SMTP_HOST,
+          port: 465,
+          secure: true,
+          user: env.SMTP_USER,
+          pass: env.SMTP_PASS,
+        });
+        try {
+          await transport.verify();
+          smtpReady = true;
+          console.log('[Email] SMTP verificado via fallback 465 (SSL).');
+          return true;
+        } catch (err2) {
+          console.error('[Email] Fallback 465 falhou:', err2.code || err2.message);
+          return false;
+        }
+      }
+      return false;
+    }
+  })();
+  return verifyPromise;
+}
 
 // Função para escapar HTML e prevenir XSS
 const escapeHtml = (str) => String(str || '')
@@ -59,7 +88,7 @@ const escapeHtml = (str) => String(str || '')
 export async function sendContactEmails({ nome, email, mensagem, logoUrl }) {
   try {
     console.log('[Email] Iniciando envio...');
-    const verified = await transportVerifyPromise;
+    const verified = await ensureTransportReady();
     if (!verified) {
       const err = new Error('Servidor SMTP indisponível');
       err.emailErrorType = 'smtp_unavailable';

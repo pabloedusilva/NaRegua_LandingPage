@@ -11,9 +11,9 @@ export function createTransport({ host, port, secure, user, pass }) {
       user: user.trim(), 
       pass: pass.trim() 
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 8000,
-    socketTimeout: 12000,
+    connectionTimeout: 20000,
+    greetingTimeout: 15000,
+    socketTimeout: 25000,
     pool: false,
     debug: false,
     logger: false,
