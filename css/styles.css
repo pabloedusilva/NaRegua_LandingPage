@@ -378,4 +378,3 @@ a { color: var(--text); text-decoration: none; }
 .reveal-stagger.reveal-visible > *:nth-child(4) { transition-delay: .22s; }
 .reveal-stagger.reveal-visible > *:nth-child(5) { transition-delay: .28s; }
 .reveal-stagger.reveal-visible > *:nth-child(6) { transition-delay: .34s; }
-
