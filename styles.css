@@ -252,7 +252,7 @@ a { color: var(--text); text-decoration: none; }
 .btn:hover { transform: translateY(-1px); filter: brightness(1.03); }
 
 /* WhatsApp button */
-.btn-whatsapp { background: color-mix(in oklab, var(--wa) 12%, #121212); color: var(--wa); border-color: color-mix(in oklab, var(--wa) 55%, var(--border)); }
+.btn-whatsapp { background: transparent; color: var(--wa); border-color: color-mix(in oklab, var(--wa) 55%, var(--border)); }
 .btn-whatsapp svg { display: block; }
 .btn-whatsapp:hover { background: var(--wa); color: #0f0f10; }
 .btn-sm.btn-whatsapp { padding: .55rem .8rem; }
