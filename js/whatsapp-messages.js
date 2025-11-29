@@ -2,9 +2,9 @@
 (function(){
   const WA_NUMBER = '5531985079718';
   const WA_MESSAGES = {
-    interest: 'Olá! Tenho interesse em saber mais sobre o aplicativo Naregua Agendamentos e os planos disponíveis. Pode me enviar mais detalhes?',
-    monthly: 'Olá! Tenho interesse em assinar o Plano Mensal do Naregua Agendamentos. Pode me enviar os próximos passos para concluir a assinatura?',
-    trimestral: 'Olá! Quero assinar o Plano Trimestral do Naregua Agendamentos. Pode me informar como finalizar a assinatura?'
+    interest: 'Olá! Tenho interesse em saber mais sobre o aplicativo Na-Régua Agendamentos e os planos disponíveis. Pode me enviar mais detalhes?',
+    monthly: 'Olá! Tenho interesse em assinar o Plano Mensal do Na-Régua Agendamentos. Pode me enviar os próximos passos para concluir a assinatura?',
+    trimestral: 'Olá! Quero assinar o Plano Trimestral do Na-Régua Agendamentos. Pode me informar como finalizar a assinatura?'
   };
 
   function applyMessages(){
