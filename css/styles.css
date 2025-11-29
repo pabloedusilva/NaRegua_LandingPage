@@ -155,7 +155,7 @@ a { color: var(--text); text-decoration: none; }
   .bubble-xl { font-size: .86rem; max-width: 300px; }
 }
 .phone-frame {
-  width: min(360px, 88vw); aspect-ratio: 9 / 19.5; border-radius: 32px;
+  width: min(360px, 88vw); aspect-ratio: 9 / 18; border-radius: 32px;
   background: linear-gradient(180deg, #1a1a1a, #0f0f0f);
   padding: 14px; box-shadow: var(--shadow); position: relative;
   border: 1px solid #000; outline: 2px solid #222; outline-offset: 2px;
@@ -196,7 +196,7 @@ a { color: var(--text); text-decoration: none; }
 }
 .screens .screen-carousel.vertical { gap: .75rem; }
 .screen-card { background: #141414; border: 2px solid var(--border); border-radius: 14px; padding: 1rem; display: grid; place-items: center; color: var(--muted); flex: 0 0 auto; width: min(360px, 88vw); scroll-snap-align: center; }
-.screen-card.tall { height: 500px; aspect-ratio: 9 / 19.5; }
+.screen-card.tall { height: 460px; aspect-ratio: 9 / 18; }
 .screens .screen-carousel::-webkit-scrollbar { height: 8px; }
 .screens .screen-carousel::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 999px; }
 
