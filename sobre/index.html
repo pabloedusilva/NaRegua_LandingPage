@@ -25,6 +25,17 @@
     .back-arrow { position:absolute; left:16px; top:16px; display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:10px; background:#141414; border:1px solid var(--border); color:var(--text-dim); }
     .about-section { margin: 1rem 0 1rem; }
     .about-section h3 { font-family:'Bebas Neue', sans-serif; color: var(--gold); font-size:1.4rem; margin:.2rem 0 .5rem; }
+    .creator { margin:1rem 0 0; }
+    .creator-grid { display:grid; gap:1rem; }
+    .creator-text { display:flex; flex-direction:column; gap:.8rem; }
+    .creator-card { background:transparent; border:0; padding:0; width:100%; max-width:220px; text-align:center; box-shadow:none; overflow:visible; margin:0 auto; }
+    .creator-photo { width:100%; max-width:190px; aspect-ratio: 1 / 1; object-fit: cover; border-radius:12px; display:block; margin:0 auto; }
+    .creator-caption { color: var(--text-dim); font-size:.85rem; margin-top:.5rem; letter-spacing:.2px; }
+    @media (min-width: 768px) {
+      .creator-grid { grid-template-columns: 1fr 260px; align-items:center; }
+      .creator-card { padding:.8rem; max-width:240px; }
+      .creator-photo { border-radius:14px; max-width:200px; }
+    }
   </style>
 </head>
 <body>
@@ -69,8 +80,18 @@
       </section>
       <section class="about-section" id="quem-criou">
         <h3>Quem criou</h3>
-        <p><strong>Pablo Eduardo Silva</strong> é o criador do Na-Régua. Profissional de tecnologia focado em produtos digitais, une visão de negócio, design centrado no usuário e engenharia para resolver problemas reais do dia a dia das barbearias. Sua atuação é pautada por simplicidade, performance e transparência — entregando uma experiência moderna para clientes e uma gestão organizada para profissionais.</p>
-        <p>Com experiência em desenvolvimento e liderança de produto, Pablo prioriza interfaces objetivas, fluxos intuitivos e decisões técnicas que suportam crescimento com qualidade. O Na-Régua reflete esses princípios: fácil de usar, confiável e pensado para aumentar a eficiência das barbearias sem burocracia.</p>
+        <div class="creator" aria-label="Criador do aplicativo">
+          <div class="creator-grid">
+            <div class="creator-text">
+              <p><strong>Pablo Eduardo Silva</strong> é o criador do Na-Régua. Profissional de tecnologia focado em produtos digitais, une visão de negócio, design centrado no usuário e engenharia para resolver problemas reais do dia a dia das barbearias. Sua atuação é pautada por simplicidade, performance e transparência — entregando uma experiência moderna para clientes e uma gestão organizada para profissionais.</p>
+              <p>Com experiência em desenvolvimento e liderança de produto, Pablo prioriza interfaces objetivas, fluxos intuitivos e decisões técnicas que suportam crescimento com qualidade. O Na-Régua reflete esses princípios: fácil de usar, confiável e pensado para aumentar a eficiência das barbearias sem burocracia.</p>
+            </div>
+            <figure class="creator-card">
+              <img src="../imagens/Pablo.jpg" alt="Pablo Eduardo Silva" class="creator-photo" />
+              <figcaption class="creator-caption"><strong>Pablo Eduardo Silva</strong></figcaption>
+            </figure>
+          </div>
+        </div>
       </section>
       <section class="about-section" id="missao-visao">
         <h3>Missão e Visão</h3>
