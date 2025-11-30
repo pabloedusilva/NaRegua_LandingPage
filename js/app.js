@@ -118,3 +118,65 @@
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
   allReveal.forEach(el => io.observe(el));
 })();
+
+// Plans Drawer interactions (open/close + drag to close)
+(function(){
+  const openBtn = document.getElementById('open-plans-modal');
+  const overlay = document.getElementById('plansDrawerOverlay');
+  const drawer = document.getElementById('plansDrawer');
+  const handle = document.getElementById('plansDrawerHandle');
+  const closeBtn = document.getElementById('plansDrawerClose');
+  if (!openBtn || !overlay || !drawer || !handle || !closeBtn) return;
+
+  let startY = 0;
+  let currentY = 0;
+  let dragging = false;
+
+  function openDrawer(){
+    overlay.hidden = false;
+    requestAnimationFrame(() => drawer.classList.add('open'));
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer(){
+    drawer.classList.remove('open');
+    drawer.style.transform = '';
+    currentY = 0;
+    dragging = false;
+    setTimeout(() => { overlay.hidden = true; document.body.style.overflow = ''; }, 220);
+  }
+
+  openBtn.addEventListener('click', (e) => { e.preventDefault(); openDrawer(); });
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDrawer(); });
+  closeBtn.addEventListener('click', closeDrawer);
+
+  function onPointerDown(e){
+    dragging = true;
+    startY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+    drawer.style.transition = 'none';
+    handle.setPointerCapture && handle.setPointerCapture(e.pointerId || 0);
+  }
+  function onPointerMove(e){
+    if (!dragging) return;
+    const y = e.clientY || (e.touches && e.touches[0].clientY) || 0;
+    currentY = Math.max(0, y - startY);
+    drawer.style.transform = `translateY(${currentY}px)`;
+  }
+  function onPointerUp(){
+    if (!dragging) return;
+    drawer.style.transition = '';
+    if (currentY >= 100) {
+      closeDrawer();
+    } else {
+      drawer.style.transform = '';
+    }
+    dragging = false;
+  }
+
+  // Support mouse, touch, and pointer
+  handle.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  handle.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+})();
